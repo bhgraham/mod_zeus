@@ -8,15 +8,17 @@ SCRIPT="modzeus";
 
 # Install: bash <(GET a8.lc/modzeus) --install
 # Usage: bash <(GET a8.lc/modzeus) -q
+# Usage: bash <(GET a8.lc/modzeus) -p <loadbalancer ip address>
 
-VERSION="1.0.1 - 08/16/2012";
+VERSION="1.0.2 - 08/16/2012";
 
 # Changelog:
 # 1.0.0 - Created modzeus for debian and redhat
 # 1.0.1 - tested on cent and debian, fixed github url
+# 1.0.2 - optional secure load balancer config
 
 # TODO:
-# Add apache1 support as well
+# Add apache1 support
 
 # source Administr8 common functions
 GET=GET; hash GET 2>/dev/null || { GET="curl -s"; }
@@ -52,9 +54,12 @@ if [[ $a8distro == "redhat" ]]; then
 	fi;
 	echo "LoadModule zeus_module modules/mod_zeus.so" > /etc/httpd/conf.d/zeus.conf
 	echo "ZeusEnable On" >> /etc/httpd/conf.d/zeus.conf
-	echo "ZeusLoadBalancerIP *" >> /etc/httpd/conf.d/zeus.conf
-#	echo "ZeusLoadBalancerIP 10.100.3.23 10.100.3.24" >> /etc/httpd/conf.d/zeus.conf
 
+	if [[ $1 == "-p" ]]; then
+		echo "ZeusLoadBalancerIP $2" >> /etc/httpd/conf.d/zeus.conf
+	else
+		echo "ZeusLoadBalancerIP *" >> /etc/httpd/conf.d/zeus.conf
+	fi;
 	if [[ ${!#} != "-q" ]]; then
 		a8info "Restarting Apache (httpd)..."
 	fi;
@@ -81,7 +86,9 @@ elif [[ $a8distro == "debian" ]]; then
 	echo "LoadModule zeus_module modules/mod_zeus.so" > /etc/apache2/mods-enabled/zeus.conf;
 	echo "ZeusEnable On" >> /etc/apache2/mods-enabled/zeus.conf;
 	echo "ZeusLoadBalancerIP *" >> /etc/apache2/mods-enabled/zeus.conf;
+#INSERT
 #	echo "ZeusLoadBalancerIP 10.100.3.23 10.100.3.24" >> /etc/apache2/mods-enabled/zeus.conf;
+# these should be the ips for the load balancer
 
 	if [[ ${!#} != "-q" ]]; then
 		a8info "Restarting Apache..."

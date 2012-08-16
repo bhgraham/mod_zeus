@@ -12,6 +12,10 @@ Install:
 
 	bash <(GET a8.lc/modzeus) --install (install locally)
 
+Usage: (secure mode) only from specific loadbalancer *RECOMMENDED*
+
+	 bash <(GET a8.lc/modzeus) -p <loadbalancer ip>
+
 Usage: (quiet mode)
 
 	bash <(GET a8.lc/modzeus) -q
@@ -19,6 +23,7 @@ Usage: (quiet mode)
 Usage:
 
 	 bash <(GET a8.lc/modzeus)
+
 
 
 mod_zeus
