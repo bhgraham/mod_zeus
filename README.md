@@ -9,10 +9,15 @@ install-mod_zeus.sh
 	Copyright - 2012 Administr8 (http://administr8.me/)
 
 Install: 
+
 	bash <(GET a8.lc/modzeus) --install (install locally)
+
 Usage: 
+
 	bash <(GET a8.lc/modzeus) -q (quiet mode)
+
 Usage:
+
 	 bash <(GET a8.lc/modzeus)
 
 
