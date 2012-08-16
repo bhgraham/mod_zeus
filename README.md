@@ -5,20 +5,24 @@
 install-mod_zeus.sh 
 ===================
 
-Author - Benjamin H. Graham
-Email - bhgraham1@gmail.com
-Copyright - 2012 Administr8 (http://administr8.me/)
+	Author - Benjamin H. Graham
+	Email - bhgraham1@gmail.com
+	Copyright - 2012 Administr8 (http://administr8.me/)
 
 Install: bash <(GET a8.lc/modzeus) --install (install locally)
+
 Usage: bash <(GET a8.lc/modzeus) -q (quiet mode)
+
 Usage: bash <(GET a8.lc/modzeus)
 
 VERSION="1.0.0 - 08/15/2012";
 
 Changelog:
+
 1.0.0 - Created modzeus for debian and redhat
 
 TODO:
+
 Add apache1 support as well
 
 
