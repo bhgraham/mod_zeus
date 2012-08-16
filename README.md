@@ -12,9 +12,9 @@ Install:
 
 	bash <(GET a8.lc/modzeus) --install (install locally)
 
-Usage: 
+Usage: (quiet mode)
 
-	bash <(GET a8.lc/modzeus) -q (quiet mode)
+	bash <(GET a8.lc/modzeus) -q
 
 Usage:
 
@@ -55,12 +55,11 @@ Installation
 
 You will need to compile the Apache module; this is most easily done using the Apache Extension toolset.  You will probably need to run the installation step as root:
 
-#  apxs2 -i -a -c -n 'zeus' apache-2.x/mod_zeus.c
+	apxs2 -i -a -c -n 'zeus' apache-2.x/mod_zeus.c
 
 The installation step should copy the mod_zeus.so module, and add the following to your httpd.conf file:
 
-#  apxs2 -i -a -c -n 'zeus' apache-2.x/mod_zeus.c
-
+	apxs2 -i -a -c -n 'zeus' apache-2.x/mod_zeus.c
  
 I got an error...
 The apxs toolset does not always work with the apache distribution it is bundled with.  The most common problem is that the distro-supplied httpd.conf file is empty, and does not contain any LoadModule directives:
@@ -82,13 +81,13 @@ Configuring the module
 Add the following two lines to your httpd.conf file:
 
     ZeusEnable on
-    ZeusLoadBalancerIp10.100.1.6810.100.1.69
+    ZeusLoadBalancerIp 10.100.1.68 10.100.1.69
 
  The ZeusLoadBalancerIp configuration directive specifies the back-end addresses of the ZXTM machines. The Apache module will only trust the X-Cluster-Client-Ip header in connections which originate from these IP addresses. This means that remote users cannot spoof their source addresses by inserting a false header and accessing the Apache servers directly.
 
 Restart your Apache servers, and monitor your servers' error logs. If you have misconfigured the ZeusLoadBalancerIp value, you will see messages like:
 
-    Ignoring X-Cluster-Client-Ip'204.17.28.130'from non-LoadBalancer machine '10.100.1.31'
+Ignoring X-Cluster-Client-Ip'204.17.28.130' from non-LoadBalancer machine '10.100.1.31'
 
 
 The Result
@@ -96,6 +95,8 @@ Apache, and applications running on Apache will see the correct source IP addres
 
 The Apache module will add an environment variable named ZEUS_LOAD_BALANCER_IP, which you can inspect in your application or log using %{ZEUS_LOAD_BALANCER_IP}e. This variable identifies the back-end IP address of the Zeus machine that submitted the request.
 
-Download this extension below:
+Download this original extension package:
+
 http://community.riverbed.com/rvrb/attachments/rvrb/Extensions/5/1/modzeus-10-1.zip
+
 http://www.zeus.com/sites/default/files/extensions/4/files/modzeus-10-1.zip
