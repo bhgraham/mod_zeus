@@ -9,10 +9,11 @@ SCRIPT="modzeus";
 # Install: bash <(GET a8.lc/modzeus) --install
 # Usage: bash <(GET a8.lc/modzeus) -q
 
-VERSION="1.0.0 - 08/15/2012";
+VERSION="1.0.1 - 08/16/2012";
 
 # Changelog:
 # 1.0.0 - Created modzeus for debian and redhat
+# 1.0.1 - tested on cent and debian, fixed github url
 
 # TODO:
 # Add apache1 support as well
@@ -31,7 +32,7 @@ fi;
 if [[ ${!#} != "-q" ]]; then
 	a8info "Downloading current mod_zeus.c from Github";
 fi;
-wget -q --no-check-certificate https://github.com/bhgraham/mod_zeus/raw/master/apache-2.x/mod_zeus.c
+wget -q --no-check-certificate https://raw.github.com/bhgraham/mod_zeus/master/apache-2.x/mod_zeus.c
 
 a8info "Installing for apache2 on $a8distro";
 
