@@ -70,6 +70,8 @@
  * the request came through.
  */ 
 
+#include "arpa/inet.h"
+
 #include "apr_strings.h"
 #include "ap_config.h"
 #include "httpd.h"
