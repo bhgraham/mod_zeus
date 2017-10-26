@@ -1,7 +1,7 @@
 #!/bin/bash
 # Author - Benjamin H. Graham
 # Email - bhgraham1@gmail.com
-# Copyright - 2012 Administr8 (http://administr8.me/)
+# Copyright - 2012-2017 Administr8 (http://administr8.me/)
 
 DESC="Apache mod_zeus installer.";
 SCRIPT="modzeus";
@@ -10,15 +10,13 @@ SCRIPT="modzeus";
 # Usage: bash <(GET a8.lc/modzeus) -q
 # Usage: bash <(GET a8.lc/modzeus) -p <loadbalancer ip address>
 
-VERSION="1.0.2 - 08/16/2012";
+VERSION="1.0.3 - 10/26/2017";
 
 # Changelog:
 # 1.0.0 - Created modzeus for debian and redhat
 # 1.0.1 - tested on cent and debian, fixed github url
 # 1.0.2 - optional secure load balancer config
-
-# TODO:
-# Add apache1 support
+# 1.0.3 - adding apache 2.4 support.
 
 # source Administr8 common functions
 GET=GET; hash GET 2>/dev/null || { GET="curl -s"; }
@@ -32,7 +30,7 @@ if [ -f /etc/debian_version ]; then
 fi;
 
 if [[ ${!#} != "-q" ]]; then
-	a8info "Downloading current mod_zeus.c from Github";
+	a8info "Downloading current mod_zeus.c from Github for Apache 2.4+";
 fi;
 wget -q --no-check-certificate https://raw.github.com/bhgraham/mod_zeus/master/apache-2.x/mod_zeus.c
 
