@@ -6,7 +6,7 @@ install-mod_zeus.sh
 
 	Author - Benjamin H. Graham
 	Email - bhgraham1@gmail.com
-	Copyright - 2012 Administr8 (http://administr8.me/)
+	Copyright - 2012-2017 Administr8 (http://administr8.me/)
 
 Install: 
 

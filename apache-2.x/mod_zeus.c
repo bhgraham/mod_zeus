@@ -30,7 +30,7 @@
  * SUCH DAMAGE.
  *
  *  mod_zeus.c -- Apache module to understand the X-Cluster-Client-Ip
- *                header, and feed it into the remote_ip field
+ *                header, and feed it into the client_ip field
  *
  * Editing history
  *   2009-01-19: Zeus Technology.  Fix IP handling for IPv4 addresses
@@ -60,7 +60,7 @@
  *
  *    $ sudo apachectl restart
  *
- * Apache will now fix the remote_ip field if the request contains an
+ * Apache will now fix the client_ip field if the request contains an
  * X-Cluster-Client-Ip field, and the request came directly from a
  * one of the IP Addresses specified in the configuration file
  * (ZeusLoadBalancerIp directive).
@@ -153,12 +153,12 @@ zeus_trusted( conn_rec *c, mod_zeus_server_conf *conf )
    trusted = apr_table_get( c->notes, "ZEUS_TRUSTED" );
    if( trusted ) return ( trusted[0] == 'Y' );
    
-   if( apr_table_get( conf->trusted_ips, c->remote_ip ) ) {
+   if( apr_table_get( conf->trusted_ips, c->client_ip ) ) {
       /* is trusted */
       apr_table_setn( c->notes, "ZEUS_TRUSTED", "Y" );
 
       /* Preserve the Load Balancer Address */
-      apr_table_set( c->notes, "ZEUS_LOAD_BALANCER_ADDR", c->remote_ip );
+      apr_table_set( c->notes, "ZEUS_LOAD_BALANCER_ADDR", c->client_ip );
       return 1;
    } else {
       /* is not trusted */
@@ -186,7 +186,7 @@ zeus_handler(request_rec *r)
    if( !zeus_trusted( c, conf ) ) {
       ap_log_rerror( APLOG_MARK, APLOG_ERR|APLOG_NOERRNO, 0, r,
          "Ignoring X-Cluster-Client-Ip '%s' from non-Load Balancer machine '%s'",
-         ip, c->remote_ip );
+         ip, c->client_ip );
       return DECLINED;
    }
 
@@ -198,17 +198,17 @@ zeus_handler(request_rec *r)
 
    /* If it's already correct, from an earlier KA for example,
     * do nothing */
-   if( strcmp( ip, c->remote_ip ) == 0 ) return DECLINED;
+   if( strcmp( ip, c->client_ip ) == 0 ) return DECLINED;
 
    if( apr_sockaddr_info_get(&inp, ip, APR_UNSPEC, 
-                             c->remote_addr->port, 0, c->pool) != APR_SUCCESS ) {
+                             c->client_addr->port, 0, c->pool) != APR_SUCCESS ) {
       ap_log_rerror( APLOG_MARK, APLOG_ERR|APLOG_NOERRNO, 0, r,
                      "Invalid X-Cluster-Client-Ip header '%s'; ignored", ip );
       return DECLINED;
    }
 
-   c->remote_addr = inp;
-   c->remote_ip   = apr_pstrdup( c->pool, ip );
+   c->client_addr = inp;
+   c->client_ip   = apr_pstrdup( c->pool, ip );
    c->remote_host = NULL; /* Force DNS re-resolution */
 
    return DECLINED;
@@ -237,3 +237,4 @@ module AP_MODULE_DECLARE_DATA zeus_module =
     zeus_module_cmds,	/* command apr_table_t */
     register_hooks		/* register hooks */
 };
+
